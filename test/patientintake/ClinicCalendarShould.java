@@ -42,7 +42,7 @@ class ClinicCalendarShould {
    
    @Test
    void returnCurrentDaysAppointments() {
-	   ClinicCalendar calendar = new ClinicCalendar(LocalDate.now());
+	   ClinicCalendar calendar = new ClinicCalendar(LocalDate.of(2022, 8, 15));
 	   calendar.addAppointment("Jim", "Weaver", "avery", "08/15/2022 2:00 pm");  //make sure these are set to
 	   calendar.addAppointment("Jim", "Weaver", "avery", "08/15/2022 3:00 pm");  //today's date before running tests.
 	   calendar.addAppointment("Jim", "Weaver", "avery", "12/15/2018 2:00 pm");
