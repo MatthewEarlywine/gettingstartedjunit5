@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="lib" path="junit5-jars/apiguardian-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="junit5-jars/junit-jupiter-api-5.7.0.jar"/>
+	<classpathentry kind="lib" path="junit5-jars/junit-jupiter-engine-5.7.0.jar"/>
+	<classpathentry kind="lib" path="junit5-jars/junit-platform-commons-1.7.0.jar"/>
+	<classpathentry kind="lib" path="junit5-jars/junit-platform-console-standalone-1.7.0-all.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
