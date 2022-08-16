@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -37,11 +38,14 @@ class ClinicCalendarShould {
       assertNotNull(appointments);
       assertEquals(1, appointments.size());
       PatientAppointment enteredAppt = appointments.get(0);
-      assertEquals("Jim", enteredAppt.getPatientFirstName());
-      assertEquals("Weaver", enteredAppt.getPatientLastName());
-      assertSame(Doctor.avery, enteredAppt.getDoctor());
-      assertEquals("9/1/2018 02:00 PM",
-         enteredAppt.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a", Locale.US)));
+      
+      assertAll(
+    		  () -> assertEquals("Jim", enteredAppt.getPatientFirstName()),
+    		  () -> assertEquals("Weaver", enteredAppt.getPatientLastName()),
+    		  () -> assertSame(Doctor.avery, enteredAppt.getDoctor()),
+    		  () -> assertEquals("9/1/2018 02:00 PM",
+    		  enteredAppt.getAppointmentDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy hh:mm a", Locale.US)))
+      );
    }
    
    @Test
@@ -57,6 +61,7 @@ class ClinicCalendarShould {
 	   assertFalse(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
    }
    
+   //Use @Disabled to exclude a given test from being run.
    @Test
    void returnCurrentDaysAppointments() {
 	   System.out.println("Current day's appointments...");
