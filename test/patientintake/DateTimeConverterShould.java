@@ -2,6 +2,7 @@ package patientintake;
 
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("dateTime") //@Tag doesn't seem to work as anticipated in Run Configurations.
 @DisplayName("DateTimeConverter should") //acceptable code, but @DisplayName doesn't seem to function in Eclipse IDE
 public class DateTimeConverterShould {
 	
@@ -36,6 +38,7 @@ public class DateTimeConverterShould {
 		LocalDateTime result = DateTimeConverter.convertStringToDateTime("9/2/2022 1:00 pm", LocalDate.of(2022, 9, 1));
 		assertEquals(result, LocalDateTime.of(2022, 9, 2, 13, 0));
 	}
+	
 	
 	@Test
 	@DisplayName("throw exception if entered pattern of string is incorrect")
