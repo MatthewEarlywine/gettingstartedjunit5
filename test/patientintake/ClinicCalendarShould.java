@@ -5,6 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -26,10 +28,11 @@ class ClinicCalendarShould {
 	@BeforeEach
 	void init() {
 		System.out.println("Before each...");
-		calendar = new ClinicCalendar(LocalDate.of(2022, 8, 15));
+		calendar = new ClinicCalendar(LocalDate.of(2022, 8, 17)); //Be sure to update to current date for tests.
 	}
 
    @Test
+   @DisplayName("Record a new appointment correctly")
    void allowEntryOfAnAppointment() {
 	  System.out.println("entry of appointment...");
       calendar.addAppointment("Jim", "Weaver", "avery",
@@ -48,28 +51,78 @@ class ClinicCalendarShould {
       );
    }
    
-   @Test
-   void returnTrueForHasAppointmentsIfThereAreAppointments() {
-	   System.out.println("has appointments...");
-	   calendar.addAppointment("Jim", "Weaver", "avery", "09/01/2018 2:00 pm");
-	   assertTrue(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
+   @Nested
+   @DisplayName("indicate if there are appointments correctly")
+   class HasAppointments{
+	   
+	   @Test
+	   @DisplayName("when there are appointments.")
+	   void returnTrueForHasAppointmentsIfThereAreAppointments() {
+		   System.out.println("has appointments...");
+		   calendar.addAppointment("Jim", "Weaver", "avery", "09/01/2018 2:00 pm");
+		   assertTrue(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
+	   }
+	   
+	   @Test
+	   @DisplayName("when there are no appointments.")
+	   void returnFalseForHasAppointmentsIfThereAreNoAppointments() {
+		   System.out.println("no appointments...");
+		   assertFalse(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
+	   }
+   }
+  
+   @Nested
+   @DisplayName("return appointments for a given day correctly")
+   class AppointmentsForDay{
+	   
+	   //Use @Disabled to exclude a given test from being run.
+	   @Test
+	   @DisplayName("for today")
+	   void returnCurrentDaysAppointments() {
+		   System.out.println("For today...");
+		   calendar.addAppointment("Jim", "Weaver", "avery", "08/17/2022 2:00 pm");  //make sure these are set to
+		   calendar.addAppointment("Jim", "Weaver", "avery", "08/17/2022 3:00 pm");  //today's date before running tests.
+		   calendar.addAppointment("Jim", "Weaver", "avery", "12/15/2018 2:00 pm");
+		   assertEquals(2, calendar.getTodayAppointments().size());
+	   }
+	   
+	   @Test
+	   @DisplayName("for tomorrow")
+	   void returnTomorrowsAppointments() {
+		   System.out.println("For tomorrow...");
+		   calendar.addAppointment("Jim", "Weaver", "avery", "08/18/2022 2:00 pm");  //make sure these are set to
+		   calendar.addAppointment("Jim", "Weaver", "avery", "08/18/2022 3:00 pm");  //today's date before running tests.
+		   calendar.addAppointment("Jim", "Weaver", "avery", "12/15/2018 2:00 pm");
+		   assertEquals(2, calendar.getTomorrowAppointments().size());
+	   }
    }
    
-   @Test
-   void returnFalseForHasAppointmentsIfThereAreNoAppointments() {
-	   System.out.println("no appointments...");
-	   assertFalse(calendar.hasAppointment(LocalDate.of(2018, 9, 1)));
+   
+
+   
+   
+   @Nested
+   @DisplayName("return upcoming appointments")
+   class UpcomingAppointments{
+	   
+	   @Test
+	   @DisplayName("as empty list when there are none.")
+	   void whenThereAreNone() {
+		   List<PatientAppointment> appointments = calendar.getUpcomingAppointments();
+		   assertEquals(0, appointments.size());
+	   }
+	   
+	   @Test
+	   @DisplayName("correctly when there are some in the past as well.")
+	   void whenThereAreSomePastAndFuture() {
+		   
+		   calendar.addAppointment("Jim", "Weaver", "avery", "08/17/2022 2:00 pm");  //make sure these are set to
+		   calendar.addAppointment("Jim", "Weaver", "avery", "08/18/2022 3:00 pm");  //today's date before running tests.
+		   calendar.addAppointment("Jim", "Weaver", "avery", "12/15/2018 2:00 pm");
+		   assertEquals(1, calendar.getUpcomingAppointments().size());
+	   }
    }
    
-   //Use @Disabled to exclude a given test from being run.
-   @Test
-   void returnCurrentDaysAppointments() {
-	   System.out.println("Current day's appointments...");
-	   calendar.addAppointment("Jim", "Weaver", "avery", "08/15/2022 2:00 pm");  //make sure these are set to
-	   calendar.addAppointment("Jim", "Weaver", "avery", "08/15/2022 3:00 pm");  //today's date before running tests.
-	   calendar.addAppointment("Jim", "Weaver", "avery", "12/15/2018 2:00 pm");
-	   assertEquals(2, calendar.getTodayAppointments().size());
-   }
    
    @AfterEach
    void tearDownEachTest() {

@@ -60,11 +60,17 @@ public class ClinicCalendar {
 	      LocalDate tomorrow = today.plusDays(1);
 	      return getAppointmentsForDate(tomorrow);
 	}
+   
+   public List<PatientAppointment> getUpcomingAppointments() {
+	   return appointments.stream()
+			  .filter(appt -> appt.getAppointmentDateTime().toLocalDate().isAfter(today))
+			  .collect(Collectors.toList());
+	}
 
    private List<PatientAppointment> getAppointmentsForDate(LocalDate tomorrow) {
 	   return appointments.stream()
-	      .filter(appt -> appt.getAppointmentDateTime().toLocalDate().equals(tomorrow))
-	      .collect(Collectors.toList());
+			   .filter(appt -> appt.getAppointmentDateTime().toLocalDate().equals(tomorrow))
+			   .collect(Collectors.toList());
 	}
    
    public boolean hasAppointment(LocalDate date) {
